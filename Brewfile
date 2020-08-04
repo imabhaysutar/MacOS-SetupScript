@@ -11,6 +11,7 @@ brew 'zsh-syntax-highlighting'
 brew 'zsh-completions'
 brew 'mas' # Mac App Store manager
 brew 'wget'
+brew 'cowsay'
 
 ###  Casks  ###
 
@@ -20,6 +21,7 @@ brew 'node'
 
 # applications
 cask 'adobe-creative-cloud'
+cask 'alfred'
 cask 'android-file-transfer'
 cask 'iriunwebcam'
 cask 'monitorcontrol'
@@ -27,14 +29,13 @@ cask 'mounty'
 cask 'notion'
 cask 'slack'
 cask 'spotify'
-cask 'firefox'
+cask 'firefox-developer-edition'
 cask 'maccy'
 cask 'google-backup-and-sync'
 cask 'appcleaner'
 cask 'iina'
 cask 'visual-studio-code'
 cask 'zoomus'
-
 
 # quicklock plugins
 cask 'qlcolorcode'
