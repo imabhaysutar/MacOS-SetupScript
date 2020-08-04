@@ -2,6 +2,9 @@
 
 cask_args appdir: '/Applications'
 
+# Taps
+tap 'homebrew/cask-versions'
+
 # Binaries
 brew 'curl'
 brew 'git'
