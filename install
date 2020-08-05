@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-# Thanks to https://mths.be/macos
-# Huge thanks to https://github.com/mzdr
 
 count=1
+
+# Script's color palette
+reset="\033[0m"
+highlight="\033[41m\033[97m"
+dot="\033[33m▸ $reset"
+dim="\033[2m"
+bold="\033[1m"
 
 # Get full directory name of this script
 cwd="$(cd "$(dirname "$0")" && pwd)"
