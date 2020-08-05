@@ -6,7 +6,7 @@ Run the command below in your terminal and the installation will start *automati
 Just follow the prompts and you’ll be fine. 👌
 
 ```shell
-git clone https://github.com/imabhaysutar/MacOS-SetupScript.git ~/.MacOS-SetupScript && ~/.MacOS-SetupScript/install
+git clone https://github.com/imabhaysutar/MacOS-SetupScript.git ~/.SetupScript && ~/.SetupScript/install
 ```
 
 # What will I get?
