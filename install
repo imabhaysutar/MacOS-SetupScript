@@ -93,6 +93,17 @@ case $(read choice; echo $choice) in
         ;;
 esac
 
+step "Set Time format to show (Thu 18 Aug 11:46 pm) in enubar ? [Y/n]: " ""
+case $(read choice; echo $choice) in
+    [nN] )
+        echo ""
+        ;;
+    [yY] | * )
+        echo ""
+        run sudo defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM h:mm a"
+        ;;
+esac
+
 chapter "Adjusting HDD/SSD specific settings"
 
 step "Disable the sudden motion sensor?"
@@ -190,6 +201,43 @@ case $(read choice; echo $choice) in
         ;;
 esac
 
+chapter "Adjusting Power or Energy settings"
+
+step "Set Display to Sleep after 15 Minutes of Inactivity? [Y/n]: " ""
+case $(read choice; echo $choice) in
+    [nN] )
+        echo ""
+        ;;
+    [yY] | * )
+        echo ""
+        run sudo pmset displaysleep 15
+        ;;
+esac
+
+step "Turn Off System Sleep Completely (System never sleeps)? [Y/n]: " ""
+case $(read choice; echo $choice) in
+    [nN] )
+        echo ""
+        ;;
+    [yY] | * )
+        echo ""
+        run sudo systemsetup -setcomputersleep Never
+        ;;
+esac
+
+step "Play iOS charging sound when Charger is connected? (Only for MacBook) [Y/n]: " ""
+case $(read choice; echo $choice) in
+    [nN] )
+        echo ""
+        ;;
+    [yY] | * )
+        echo ""
+        run defaults write com.apple.PowerChime ChimeOnAllHardware -bool true && \
+        run open /System/Library/CoreServices/PowerChime.app
+        ;;
+esac
+
+
 chapter "Adjusting screen settings"
 
 step "Disable shadow in screenshots? [Y/n]: " ""
@@ -205,7 +253,7 @@ esac
 
 chapter "Adjusting Finder settings"
 
-step "Set Downloads as the default location for new Finder windows? [Y/n]: " ""
+step "Set Home as the default location for new Finder windows? [Y/n]: " ""
 case $(read choice; echo $choice) in
     [nN] )
         echo ""
@@ -213,7 +261,7 @@ case $(read choice; echo $choice) in
     [yY] | * )
         echo ""
         run defaults write com.apple.finder NewWindowTarget -string '"PfLo"'
-        run defaults write com.apple.finder NewWindowTargetPath -string "'file://${HOME}/Downloads/'"
+        run defaults write com.apple.finder NewWindowTargetPath -string "'file://${HOME}/'"
         ;;
 esac
 
@@ -357,6 +405,23 @@ case $(read choice; echo $choice) in
         echo ""
         run defaults write com.apple.dock persistent-apps -array
         run defaults write com.apple.dock recent-apps -array
+        ;;
+esac
+
+chapter "Adjusting some app preferences"
+
+step "Enable the Develop options in Safari? [Y/n]: " ""
+case $(read choice; echo $choice) in
+    [nN] )
+        echo ""
+        ;;
+    [yY] | * )
+        echo ""
+        run defaults write com.apple.Safari IncludeInternalDebugMenu -bool true && \
+        run defaults write com.apple.Safari IncludeDevelopMenu -bool true && \
+        run defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true && \
+        run defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true && \
+        run defaults write -g WebKitDeveloperExtras -bool true
         ;;
 esac
 
