@@ -11,7 +11,7 @@ git clone https://github.com/imabhaysutar/MacOS-SetupScript.git ~/.SetupScript &
 
 # What will I get?
 
-1. A set of essential ⚒ **System Preferences**…
+1. A set of essential (🛠) **System Preferences**…
 
     Which [are]
 
@@ -28,32 +28,34 @@ git clone https://github.com/imabhaysutar/MacOS-SetupScript.git ~/.SetupScript &
 2. A stack of (👀) **fonts**…
 
     - [FiraCode]
-    - [CamingoCode]
-    - [Anonymous Pro]
-    - [Inconsolata]
+    - [Open-Sans]
+    - [Anonymous-Pro]
     - [Inter]
-    - [JetBrains Mono]
-    - [+90] others
+    - [+32] others
 
     <sub>See [`brew/cask/fonts`](brew/casks/fonts) for the full list of fonts that will be installed. Adjust it to your personal taste.</sub>
 #  
 
-3. A set of (my) relevant 🍧 **desktop apps**…
+3. A set of (my) relevant (🎲) **desktop apps**…
 
-    - [Google Chrome]
-    - [Firefox]
-    - [Slack]
-    - [Dropbox]
-    - [VLC]
-    - [Rectangle]
     - [Alfred]
-    - [1Password
-    - [TablePlus]
+    - [Appcleaner]
+    - [Firefox-Dev-Edition]
+    - [Google-backup-and-sync]
+    - [Iina]
+    - [Maccy]
+    - [Monitorcontrol]
+    - [Notion]
+    - [Notability]
+    - [Spotify]
+    - [Telegram]
+    - [Transmit]
+    - [Tower]
+    - [Tot]
+    - [VS-Code]
+    - [Zoom]  
 
     <sub>See [`brew/cask/desktop`](brew/casks/desktop) and [`brew/appstore`](brew/appstore) for the full list of desktop app that will be installed. Adjust it to your personal taste.</sub>
 
 #    
 
-<p align="center">
-    Thanks to <a href="https://github.com/mzdr/">@_mzdr</a>
-</p>
