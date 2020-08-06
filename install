@@ -41,7 +41,7 @@ run() {
 # Just a little welcome screen
 echo ""
 headline "                                                "
-headline "        We are about to setup your  Mac!        "
+headline "        We are about to setup your  Mac!       "
 headline "     Follow the prompts and you’ll be fine.     "
 headline "                                                "
 echo ""
