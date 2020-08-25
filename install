@@ -93,31 +93,6 @@ case $(read choice; echo $choice) in
         ;;
 esac
 
-step "Set Time format to show (Thu 18 Aug 11:46 pm) in enubar ? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run sudo defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM h:mm a"
-        ;;
-esac
-
-chapter "Adjusting HDD/SSD specific settings"
-
-step "Disable the sudden motion sensor?"
-echo -n "  (It’s not useful for SSDs) [Y/n]: "
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run sudo pmset -a sms 0
-        ;;
-esac
-
 chapter "Adjusting input device settings"
 
 step "Enable tap to click for this user and for the login screen? [Y/n]: " ""
@@ -190,17 +165,6 @@ case $(read choice; echo $choice) in
         ;;
 esac
 
-step "Stop iTunes from responding to the keyboard media keys? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
-        ;;
-esac
-
 chapter "Adjusting Power or Energy settings"
 
 step "Set Display to Sleep after 15 Minutes of Inactivity? [Y/n]: " ""
@@ -236,7 +200,6 @@ case $(read choice; echo $choice) in
         run open /System/Library/CoreServices/PowerChime.app
         ;;
 esac
-
 
 chapter "Adjusting screen settings"
 
@@ -320,17 +283,6 @@ case $(read choice; echo $choice) in
     [yY] | * )
         echo ""
         run defaults write com.apple.finder FXPreferredViewStyle -string '"Nlsv"'
-        ;;
-esac
-
-step "Enable AirDrop over Ethernet and on unsupported Macs running Lion? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
         ;;
 esac
 
@@ -482,6 +434,8 @@ case $(read choice; echo $choice) in
         ;;
 esac
 
+run killall Dock
+
 chapter "Installing…"
 
 which -s xcode-select
@@ -536,6 +490,15 @@ for font in $(<$cwd/brew/casks/fonts); do
         run brew cask install $font --fontdir=/Library/Fonts
     fi
 done
+
+step "VS Code Extensions\n"
+
+for vsext in $(<$cwd/vscode); do
+    if ! mas list | grep -q "^${vsext}\$"; then
+        run code --install-extension $vsext
+    fi
+done
+
 
 step "Cleanup\n"
 
