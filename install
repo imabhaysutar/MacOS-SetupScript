@@ -464,6 +464,8 @@ for app in $(<$cwd/brew/cli); do
     fi
 done
 
+run brew tap homebrew/cask-versions
+
 step "Desktop apps\n"
 
 for app in $(<$cwd/brew/casks/desktop); do
@@ -494,7 +496,7 @@ done
 step "VS Code Extensions\n"
 
 for vsext in $(<$cwd/vscode); do
-    if ! mas list | grep -q "^${vsext}\$"; then
+    if ! code --list-extensions | grep -q "^${vsext}\$"; then
         run code --install-extension $vsext
     fi
 done
