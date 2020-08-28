@@ -458,7 +458,7 @@ fi
 
 step "CLI packages\n"
 
-for app in $(<$cwd/brew/cli); do
+for app in $(<$cwd/lists/cli); do
     if ! brew list -1 | grep -q "^${app}\$"; then
         run brew install $app
     fi
@@ -468,7 +468,7 @@ run brew tap homebrew/cask-versions
 
 step "Desktop apps\n"
 
-for app in $(<$cwd/brew/casks/desktop); do
+for app in $(<$cwd/lists/casks/desktop); do
     if ! brew cask list -1 | grep -q "^${app}\$"; then
         run brew cask install $app
     fi
@@ -476,7 +476,7 @@ done
 
 step "AppStore apps\n"
 
-for appid in $(<$cwd/brew/appstore); do
+for appid in $(<$cwd/lists/appstore); do
     if ! mas list | grep -q "^${appid}\$"; then
         run mas install $appid
     fi
@@ -487,7 +487,7 @@ step "Fonts\n"
 
 run brew tap homebrew/cask-fonts
 
-for font in $(<$cwd/brew/casks/fonts); do
+for font in $(<$cwd/lists/casks/fonts); do
     if ! brew cask list -1 | grep -q "^${font}\$"; then
         run brew cask install $font --fontdir=/Library/Fonts
     fi
@@ -495,7 +495,7 @@ done
 
 step "VS Code Extensions\n"
 
-for vsext in $(<$cwd/vscode); do
+for vsext in $(<$cwd/lists/vscode); do
     if ! code --list-extensions | grep -q "^${vsext}\$"; then
         run code --install-extension $vsext
     fi
