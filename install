@@ -58,113 +58,6 @@ then
     echo ""
 fi
 
-chapter "Adjusting general settings"
-
-step "Setting your computer name (as done via System Preferences → Sharing)."
-echo -ne "  What would you like it to be? $bold"
-read computer_name
-echo -e "$reset"
-run sudo scutil --set ComputerName "'$computer_name'"
-run sudo scutil --set HostName "'$computer_name'"
-run sudo scutil --set LocalHostName "'$computer_name'"
-run sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "'$computer_name'"
-
-step "Disable OS X Gate Keeper?"
-echo -n "  (You’ll be able to install any app you want from here on, not just Mac App Store apps) [Y/n]: "
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run sudo spctl --master-disable
-        run sudo defaults write /var/db/SystemPolicy-prefs.plist enabled -string no
-        ;;
-esac
-
-step "Disable the “Are you sure you want to open this application?” dialog? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write com.apple.LaunchServices LSQuarantine -bool false
-        ;;
-esac
-
-chapter "Adjusting input device settings"
-
-step "Enable tap to click for this user and for the login screen? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-        run defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-        run defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-        ;;
-esac
-
-step "Disable natural scrolling (Scroll Direction)? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
-        ;;
-esac
-
-step "Enable full keyboard access for all controls?"
-echo -n "  (e.g. enable Tab in modal dialogs) [Y/n]: "
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-        ;;
-esac
-
-step "Disable press-and-hold for keys in favor of key repeat? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-        ;;
-esac
-
-step "Set a blazingly fast keyboard repeat rate? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write NSGlobalDomain KeyRepeat -int 1
-        run defaults write NSGlobalDomain InitialKeyRepeat -int 10
-        ;;
-esac
-
-step "Disable auto-correct? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-        ;;
-esac
-
 chapter "Adjusting Power or Energy settings"
 
 step "Set Display to Sleep after 15 Minutes of Inactivity? [Y/n]: " ""
@@ -186,18 +79,6 @@ case $(read choice; echo $choice) in
     [yY] | * )
         echo ""
         run sudo systemsetup -setcomputersleep Never
-        ;;
-esac
-
-step "Play iOS charging sound when Charger is connected? (Only for MacBook) [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write com.apple.PowerChime ChimeOnAllHardware -bool true && \
-        run open /System/Library/CoreServices/PowerChime.app
         ;;
 esac
 
@@ -228,31 +109,6 @@ case $(read choice; echo $choice) in
         ;;
 esac
 
-step "Show icons for hard drives, servers, and removable media on the desktop? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-        run defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-        run defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
-        run defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
-        ;;
-esac
-
-step "Show all filename extensions? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-        ;;
-esac
-
 step "Keep folders on top when sorting by name? [Y/n]: " ""
 case $(read choice; echo $choice) in
     [nN] )
@@ -261,17 +117,6 @@ case $(read choice; echo $choice) in
     [yY] | * )
         echo ""
         run defaults write com.apple.finder _FXSortFoldersFirst -bool true
-        ;;
-esac
-
-step "Disable the warning when changing a file extension? [Y/n]: " ""
-case $(read choice; echo $choice) in
-    [nN] )
-        echo ""
-        ;;
-    [yY] | * )
-        echo ""
-        run defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
         ;;
 esac
 
@@ -447,7 +292,6 @@ else
     echo "Found XCode Tools"
 fi
 
-
 which -s brew
 if [[ $? != 0 ]] ; then
     step "Homebrew\n"
@@ -465,12 +309,13 @@ for app in $(<$cwd/lists/cli); do
 done
 
 run brew tap homebrew/cask-versions
+run brew tap imabhaysutar/tap
 
 step "Desktop apps\n"
 
 for app in $(<$cwd/lists/casks/desktop); do
-    if ! brew cask list -1 | grep -q "^${app}\$"; then
-        run brew cask install $app
+    if ! brew list --cask -1 | grep -q "^${app}\$"; then
+        run brew install --cask $app
     fi
 done
 
@@ -489,18 +334,9 @@ run brew tap homebrew/cask-fonts
 
 for font in $(<$cwd/lists/casks/fonts); do
     if ! brew cask list -1 | grep -q "^${font}\$"; then
-        run brew cask install $font --fontdir=/Library/Fonts
+        run brew install --cask $font --fontdir=/Library/Fonts
     fi
 done
-
-step "VS Code Extensions\n"
-
-for vsext in $(<$cwd/lists/vscode); do
-    if ! code --list-extensions | grep -q "^${vsext}\$"; then
-        run code --install-extension $vsext
-    fi
-done
-
 
 step "Cleanup\n"
 
