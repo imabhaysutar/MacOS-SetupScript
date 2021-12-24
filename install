@@ -60,14 +60,14 @@ fi
 
 chapter "Adjusting Power or Energy settings"
 
-step "Set Display to Sleep after 15 Minutes of Inactivity? [Y/n]: " ""
+step "Set Display to Sleep after 10 Minutes of Inactivity? [Y/n]: " ""
 case $(read choice; echo $choice) in
     [nN] )
         echo ""
         ;;
     [yY] | * )
         echo ""
-        run sudo pmset displaysleep 15
+        run sudo pmset displaysleep 10
         ;;
 esac
 
@@ -342,18 +342,4 @@ step "Cleanup\n"
 
 run brew cleanup
 
-chapter "Restoring…"
-
-step "Set default wallpaper\n"
-run sqlite3 "~/Library/Application\ Support/Dock/desktoppicture.db" "\"\
-DELETE FROM data; \
-DELETE FROM displays; \
-DELETE FROM pictures; \
-DELETE FROM preferences; \
-DELETE FROM prefs; \
-DELETE FROM spaces; \
-INSERT INTO pictures (space_id, display_id) VALUES (null, null); \
-INSERT INTO data (value) VALUES ('${cwd}/wallpaper.jpg'); \
-INSERT INTO preferences (key, data_id, picture_id) VALUES (1, 1, 1); \
-\""
 run killall Dock
